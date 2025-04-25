@@ -48,6 +48,7 @@ else
   fail "Download seems to have failed. File not found at $download_path"
 fi
 
+exit 1
 # Extract contents of tar.gz file into the download directory
 # echo "####About to extract####"
 # tar -xzf "$download_path" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
