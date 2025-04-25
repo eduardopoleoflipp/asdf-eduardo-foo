@@ -58,7 +58,7 @@ download_release() {
   url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
 
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
-	echo "Placing the compressed file into $url"
+	echo "Downloading from $url"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
@@ -75,22 +75,32 @@ install_version() {
   (
     mkdir -p "$install_path"
     
-    # Extract the tar.gz file to the install path
-    echo "* Extracting $TOOL_NAME archive..."
-    tar -xzf "$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$version.tar.gz" -C "$install_path" --strip-components=1
+    # Determine OS and architecture for the downloaded file
+    local os arch
+    case "$(uname -s)" in
+      Darwin) os="darwin" ;;
+      Linux) os="linux" ;;
+      MINGW*|MSYS*|CYGWIN*) os="windows" ;;
+      *) fail "Unsupported operating system: $(uname -s)" ;;
+    esac
+
+    case "$(uname -m)" in
+      x86_64) arch="amd64" ;;
+      arm64|aarch64) arch="arm64" ;;
+      i*86) arch="386" ;;
+      *) fail "Unsupported architecture: $(uname -m)" ;;
+    esac
+    
+    # Use the correct filename pattern
+    local archive_file="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
+    
+    echo "* Extracting $archive_file..."
+    tar -xzf "$ASDF_DOWNLOAD_PATH/$archive_file" -C "$install_path"
     
     # Make sure the binary is executable
     chmod +x "$install_path/$TOOL_NAME"
     
     # Verify installation
-
-		echo "##############"
-		echo "Download path $ASDF_DOWNLOAD_PATH"
-		echo "Install path $install_path"
-		echo "Tool command $tool_cmd"
-		echo "$install_path/$tool_cmd"
-		echo "##############"
-
     test -x "$install_path/$TOOL_NAME" || fail "Expected $install_path/$TOOL_NAME to be executable."
 
     echo "$TOOL_NAME $version installation was successful!"
