@@ -58,6 +58,7 @@ download_release() {
   url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
 
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
+	echo "Placing the compressed file into $url"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
