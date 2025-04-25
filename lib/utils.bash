@@ -57,50 +57,26 @@ download_release() {
 }
 
 install_version() {
-  local install_type="$1"
-  local version="$2"
-  local install_path="${3%/bin}/bin"
+	local install_type="$1"
+	local version="$2"
+	local install_path="${3%/bin}/bin"
 
-	echo "* INSTALLING"
-  if [ "$install_type" != "version" ]; then
-    fail "asdf-$TOOL_NAME supports release installs only"
-  fi
+	if [ "$install_type" != "version" ]; then
+		fail "asdf-$TOOL_NAME supports release installs only"
+	fi
 
-  (
-    mkdir -p "$install_path"
-    
-    # Determine OS and architecture for the downloaded file
-    local os arch
-    case "$(uname -s)" in
-      Darwin) os="darwin" ;;
-      Linux) os="linux" ;;
-      MINGW*|MSYS*|CYGWIN*) os="windows" ;;
-      *) fail "Unsupported operating system: $(uname -s)" ;;
-    esac
+	(
+		mkdir -p "$install_path"
+		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-    case "$(uname -m)" in
-      x86_64) arch="amd64" ;;
-      arm64|aarch64) arch="arm64" ;;
-      i*86) arch="386" ;;
-      *) fail "Unsupported architecture: $(uname -m)" ;;
-    esac
-    
-    # Use the correct filename pattern
-    local archive_file="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
-    
-    echo "* Extracting $archive_file..."
-    tar -xzf "$ASDF_DOWNLOAD_PATH/$archive_file" -C "$install_path"
-    
-    # Make sure the binary is executable
-    chmod +x "$install_path/$TOOL_NAME"
-    
-    # Verify installation
-    test -x "$install_path/$TOOL_NAME" || fail "Expected $install_path/$TOOL_NAME to be executable."
+		# TODO: Assert eduardo-foo executable exists.
+		local tool_cmd
+		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
-    echo "$TOOL_NAME $version installation was successful!"
-  ) || (
-    rm -rf "$install_path"
-    fail "An error occurred while installing $TOOL_NAME $version."
-  )
+		echo "$TOOL_NAME $version installation was successful!"
+	) || (
+		rm -rf "$install_path"
+		fail "An error occurred while installing $TOOL_NAME $version."
+	)
 }
-
