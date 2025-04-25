@@ -34,10 +34,9 @@ list_all_versions() {
 }
 
 download_release() {
-  local version filename url
-  version="$1"
-  filename="$2"
-
+  local version="$1"
+  local download_path="$ASDF_DOWNLOAD_PATH"
+  
   # Determine OS and architecture
   local os arch
   case "$(uname -s)" in
@@ -54,16 +53,30 @@ download_release() {
     *) fail "Unsupported architecture: $(uname -m)" ;;
   esac
 
-  # Construct URL for the binary release
-  url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
-
+  # Construct filename and URL
+  local filename="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
+  local url="$GH_REPO/releases/download/v${version}/$filename"
+  
+  # The second parameter ($2) is the original suggested filename, which we're ignoring
+  # and using our own constructed filename instead
+  
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
-	echo "Downloading from $url"
-	echo "Download options ${curl_opts[@]}"
-	echo "Filename $filename"
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  echo "* URL: $url"
+  echo "* Saving to: $download_path/$filename"
+  
+  # Make sure download directory exists
+  mkdir -p "$download_path"
+  
+  # Download to the specific path/filename
+  curl "${curl_opts[@]}" -o "$download_path/$filename" -C - "$url" || fail "Could not download $url"
+  
+  # Check if file was downloaded successfully
+  if [ -f "$download_path/$filename" ]; then
+    echo "* Download successful: $(ls -lh "$download_path/$filename")"
+  else
+    fail "Download seems to have failed. File not found at $download_path/$filename"
+  fi
 }
-
 
 install_version() {
   local install_type="$1"
