@@ -74,6 +74,7 @@ install_version() {
 		# TODO: Assert eduardo-foo executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_NAME $TOOL_TEST" | cut -d' ' -f1)"
+		echo 'test command "$install_path/$tool_cmd"'
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
