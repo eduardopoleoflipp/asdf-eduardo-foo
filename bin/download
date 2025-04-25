@@ -34,6 +34,10 @@ release_path="$ASDF_DOWNLOAD_PATH/$release_file"
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
 
 # Extract contents of tar.gz file into the download directory
+echo "####About to extract####"
+echo "release path: $release_path"
+echo "download path: $ASDF_DOWNLOAD_PATH"
+
 tar -xzf "$release_path" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 
 # Remove the tar.gz file since we don't need to keep it
