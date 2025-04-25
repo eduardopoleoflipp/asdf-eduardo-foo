@@ -59,6 +59,7 @@ download_release() {
   
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
   echo "* URL: $url"
+  echo "* Download path: $download_path"
   echo "* Saving to: $download_path/$filename"
   
   # Make sure download directory exists
@@ -70,6 +71,8 @@ download_release() {
   # Check if file was downloaded successfully
   if [ -f "$download_path/$filename" ]; then
     echo "* Download successful: $(ls -lh "$download_path/$filename")"
+		echo "* Renaming the file "
+		mv "$download_path/$filename" "$download_path/$TOOL_NAME"
   else
     fail "Download seems to have failed. File not found at $download_path/$filename"
   fi
