@@ -59,6 +59,8 @@ download_release() {
 
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
 	echo "Downloading from $url"
+	echo "Download options ${curl_opts[@]}"
+	echo "Filename $filename"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
