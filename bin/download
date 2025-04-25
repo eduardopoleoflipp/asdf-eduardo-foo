@@ -31,10 +31,11 @@ esac
 # Main location vars
 release_file="${TOOL_NAME}_${ASDF_INSTALL_VERSION}_${os}_${arch}.tar.gz"
 download_path="$ASDF_DOWNLOAD_PATH/$release_file"
-url="$GH_REPO/releases/download/v${version}/$filename"
+url="$GH_REPO/releases/download/v${ASDF_INSTALL_VERSION}/$filename"
 
 echo "Debugging vars:"
 echo "ASDF_DOWNLOAD_PATH: $ASDF_DOWNLOAD_PATH" 
+echo "ASDF_INSTALL_VERSION: $ASDF_INSTALL_VERSION" 
 echo "release_file $release_file"
 echo "download_path $download_path"
 echo "url $url"
