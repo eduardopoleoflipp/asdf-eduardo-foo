@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+
+GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
+TOOL_NAME="eduardo-foo"
+
 set -euo pipefail
 
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
-
-# shellcheck source=./lib/utils.bash
-source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
 
@@ -27,18 +28,28 @@ case "$(uname -m)" in
   *) fail "Unsupported architecture: $(uname -m)" ;;
 esac
 
+# Main location vars
 release_file="${TOOL_NAME}_${ASDF_INSTALL_VERSION}_${os}_${arch}.tar.gz"
-release_path="$ASDF_DOWNLOAD_PATH/$release_file"
+download_path="$ASDF_DOWNLOAD_PATH/$release_file"
+url="$GH_REPO/releases/download/v${version}/$filename"
 
-# Download tar.gz file to the download directory
-download_release "$ASDF_INSTALL_VERSION" "$release_file"
+echo "Debugging vars:"
+echo "ASDF_DOWNLOAD_PATH: $ASDF_DOWNLOAD_PATH" 
+echo "release_file $release_file"
+echo "download_path $download_path"
+echo "url $url"
+
+curl -fsSL -L -o "$download_path" "$url" || fail "Could not download $url"
+
+if [ -f "$download_path" ]; then
+  echo "* Download successful: $(ls -lh "$download_path")"
+else
+  fail "Download seems to have failed. File not found at $download_path"
+fi
 
 # Extract contents of tar.gz file into the download directory
 echo "####About to extract####"
-echo "release path: $release_path"
-echo "download path: $ASDF_DOWNLOAD_PATH"
-
-tar -xzf "$release_path" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
+tar -xzf "$download_path" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
 
 # Remove the tar.gz file since we don't need to keep it
-rm "$release_path"
+rm "$download_path"
