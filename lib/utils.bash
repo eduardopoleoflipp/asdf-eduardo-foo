@@ -57,9 +57,6 @@ download_release() {
   local filename="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
   local url="$GH_REPO/releases/download/v${version}/$filename"
   
-  # The second parameter ($2) is the original suggested filename, which we're ignoring
-  # and using our own constructed filename instead
-  
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
   echo "* URL: $url"
   echo "* Saving to: $download_path/$filename"
@@ -67,8 +64,8 @@ download_release() {
   # Make sure download directory exists
   mkdir -p "$download_path"
   
-  # Download to the specific path/filename
-  curl "${curl_opts[@]}" -o "$download_path/$filename" -C - "$url" || fail "Could not download $url"
+  # Download to the specific path/filename - removed -C - to prevent range errors
+  curl "${curl_opts[@]}" -L -o "$download_path/$filename" "$url" || fail "Could not download $url"
   
   # Check if file was downloaded successfully
   if [ -f "$download_path/$filename" ]; then
