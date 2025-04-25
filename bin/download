@@ -55,4 +55,9 @@ tar -xzf "$download_path" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $r
 # Remove the tar.gz file since we don't need to keep it
 rm "$download_path"
 
+echo "About to install"
+
+echo "ASDF_INSTALL_VERSION: $ASDF_INSTALL_VERSION"
+echo "ASDF_INSTALL_PATH: $ASDF_INSTALL_PATH"
+
 exit 1
