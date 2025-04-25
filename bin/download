@@ -2,7 +2,6 @@
 
 GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
 TOOL_NAME="eduardo-foo"
-TEST_COMMAND="foo"
 
 set -euo pipefail
 
@@ -69,6 +68,6 @@ cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME" $install_path
 
 echo "test_command: $install_path/$TOOL_NAME $TEST_COMMAND"
 
-test -x "$install_path/$TOOL_NAME $TEST_COMMAND" || echo "Expected blah to be executable."
+test -x "$install_path/$TOOL_NAME" || echo "Expected blah to be executable."
 
 exit 1
