@@ -42,7 +42,7 @@ download_release() {
 	url="$GH_REPO/archive/v${version}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
-	curl "${curl_opts[@]}" -o "$filename" -C - "$url" -v || fail "Could not download $url"
+	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
 install_version() {
@@ -61,6 +61,13 @@ install_version() {
 		# TODO: Assert eduardo-foo executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+
+		echo "##############"
+		echo "Download path $ASDF_DOWNLOAD_PATH"
+		echo "Install path $install_path"
+		echo "Tool command $tool_cmd"
+		echo "##############"
+
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
