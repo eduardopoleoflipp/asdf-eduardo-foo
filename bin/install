@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 TOOL_NAME="eduardo-foo"
 
-echo "About to install"
-echo "ASDF_INSTALL_VERSION: $ASDF_INSTALL_VERSION"
-echo "ASDF_INSTALL_PATH: $ASDF_INSTALL_PATH"
-
 mkdir -p "$ASDF_INSTALL_PATH/bin"
 
 install_path="$ASDF_INSTALL_PATH/bin"
+
+echo "* Installing into: $install_path"
 
 cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME" $install_path
 
