@@ -67,6 +67,6 @@ install_path="$ASDF_INSTALL_PATH/bin"
 
 cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME" $install_path
 
-test -x "$install_path $TOOL_NAME $TEST_COMMAND"
+test -x "$install_path $TOOL_NAME $TEST_COMMAND" || fail "Expected $install_path/$tool_cmd to be executable."
 
 exit 1
