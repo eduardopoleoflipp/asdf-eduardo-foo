@@ -33,7 +33,6 @@ release_path="$ASDF_DOWNLOAD_PATH/$release_file"
 # Download tar.gz file to the download directory
 download_release "$ASDF_INSTALL_VERSION" "$release_file"
 
-echo "This is the download tar"
 # Extract contents of tar.gz file into the download directory
 tar -xzf "$release_path" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 
