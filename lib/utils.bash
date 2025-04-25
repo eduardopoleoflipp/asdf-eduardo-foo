@@ -35,46 +35,24 @@ list_all_versions() {
 
 download_release() {
   local version="$1"
+  local filename="$2"
   local download_path="$ASDF_DOWNLOAD_PATH"
-  
-  # Determine OS and architecture
-  local os arch
-  case "$(uname -s)" in
-    Darwin) os="darwin" ;;
-    Linux) os="linux" ;;
-    MINGW*|MSYS*|CYGWIN*) os="windows" ;;
-    *) fail "Unsupported operating system: $(uname -s)" ;;
-  esac
-
-  case "$(uname -m)" in
-    x86_64) arch="amd64" ;;
-    arm64|aarch64) arch="arm64" ;;
-    i*86) arch="386" ;;
-    *) fail "Unsupported architecture: $(uname -m)" ;;
-  esac
-
-  # Construct filename and URL
-  local filename="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
+  local download_filepath="$download_path/$filename"
   local url="$GH_REPO/releases/download/v${version}/$filename"
-  
+
   echo "* Downloading $TOOL_NAME release $version for ${os}_${arch}..."
   echo "* URL: $url"
   echo "* Download path: $download_path"
-  echo "* Saving to: $download_path/$filename"
-  
-  # Make sure download directory exists
+  echo "* Saving to: $download_filepath"
+
   mkdir -p "$download_path"
-  
-  # Download to the specific path/filename - removed -C - to prevent range errors
-  curl "${curl_opts[@]}" -L -o "$download_path/$filename" "$url" || fail "Could not download $url"
-  
-  # Check if file was downloaded successfully
-  if [ -f "$download_path/$filename" ]; then
-    echo "* Download successful: $(ls -lh "$download_path/$filename")"
-		echo "* Renaming the file "
-		mv "$download_path/$filename" "$download_path/$TOOL_NAME"
+
+  curl "${curl_opts[@]}" -L -o "$download_filepath" "$url" || fail "Could not download $url"
+
+  if [ -f "$download_filepath" ]; then
+    echo "* Download successful: $(ls -lh "$download_filepath")"
   else
-    fail "Download seems to have failed. File not found at $download_path/$filename"
+    fail "Download seems to have failed. File not found at $download_filepath"
   fi
 }
 
