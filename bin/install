@@ -10,3 +10,8 @@ echo "* Installing into: $install_path"
 cp "$ASDF_DOWNLOAD_PATH/$TOOL_NAME" $install_path
 
 test -x "$install_path/$TOOL_NAME" || echo "Expected blah to be executable."
+
+echo ""
+echo "Installation was successful!"
+echo 'Be sure to add "eduardo-foo <version_name>" into your projects .tool_versions'
+echo 'eduardo-foo foo should print "Hellow world!"'
