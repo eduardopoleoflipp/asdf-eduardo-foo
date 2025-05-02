@@ -52,6 +52,3 @@ fi
 # Extract contents of tar.gz file into the download directory
 echo "* Extracting into $ASDF_DOWNLOAD_PATH"
 tar -xzf "$download_path" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
-
-# Remove the tar.gz file since we don't need to keep it
-# rm "$download_path  "
