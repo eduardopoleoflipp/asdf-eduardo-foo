@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
-TOOL_NAME="eduardo-foo"
+GH_REPO="https://github.com/sudorandom/protoc-gen-connect-openapi"
+TOOL_NAME="protoc-gen-connect-openapi"
 TOOL_TEST="foo"
 
 fail() {
