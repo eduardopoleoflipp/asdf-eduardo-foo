@@ -16,7 +16,7 @@ arch=""
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
   os="darwin"
-  # We just provide a fat binary for MacOS that supports both architechtures.
+  # We just provide a fat binary for MacOS that supports both architectures.
   arch="all"
 else
   # Handle other operating systems
