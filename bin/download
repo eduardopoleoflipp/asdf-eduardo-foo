@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-GH_REPO="https://github.com/eduardopoleoflipp/asdf-eduardo-foo"
+GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
 TOOL_NAME="eduardo-foo"
 
 set -euo pipefail
