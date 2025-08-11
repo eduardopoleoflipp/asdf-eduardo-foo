@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TOOL_NAME="protoc-gen-connect-openapi"
+TOOL_NAME="eduardo-foo"
 
 mkdir -p "$ASDF_INSTALL_PATH/bin"
 
