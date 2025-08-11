@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+# Tool repo
 GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
+# tool name
 TOOL_NAME="eduardo-foo"
 
 # Function to handle failures
@@ -20,7 +22,7 @@ mkdir -p "$ASDF_DOWNLOAD_PATH"
 os=""
 arch=""
 
-# Handle operating systems
+# Determines the current operating system
 case "$(uname -s)" in
   Linux) os="linux" ;;
   Darwin) os="darwin" ;;
@@ -28,7 +30,7 @@ case "$(uname -s)" in
   *) fail "Unsupported operating system: $(uname -s)" ;;
 esac
 
-# Determine architecture for non-Darwin systems
+# Determine architecture
 case "$(uname -m)" in
   x86_64) arch="amd64" ;;
   arm64|aarch64) arch="arm64" ;;
@@ -36,7 +38,7 @@ case "$(uname -m)" in
   *) fail "Unsupported architecture: $(uname -m)" ;;
 esac
 
-# Build release file based on the goreleaser default location in github
+# Calculates variables to determine the correct 
 release_file="${TOOL_NAME}_${os}_${arch}.tar.gz"
 download_path="$ASDF_DOWNLOAD_PATH/$release_file"
 url="$GH_REPO/releases/download/v${ASDF_INSTALL_VERSION}/$release_file"
