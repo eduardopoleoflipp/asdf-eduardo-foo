@@ -14,26 +14,20 @@ mkdir -p "$ASDF_DOWNLOAD_PATH"
 os=""
 arch=""
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  os="darwin"
-  # We just provide a fat binary for MacOS that supports both architectures.
-  arch="all"
-else
-  # Handle other operating systems
-  case "$(uname -s)" in
-    Linux) os="linux" ;;
-    MINGW*|MSYS*|CYGWIN*) os="windows" ;;
-    *) fail "Unsupported operating system: $(uname -s)" ;;
-  esac
-  
-  # Determine architecture for non-Darwin systems
-  case "$(uname -m)" in
-    x86_64) arch="amd64" ;;
-    arm64|aarch64) arch="arm64" ;;
-    i*86) arch="386" ;;
-    *) fail "Unsupported architecture: $(uname -m)" ;;
-  esac
-fi
+# Handle other operating systems
+case "$(uname -s)" in
+  Linux) os="linux" ;;
+  MINGW*|MSYS*|CYGWIN*) os="windows" ;;
+  *) fail "Unsupported operating system: $(uname -s)" ;;
+esac
+
+# Determine architecture for non-Darwin systems
+case "$(uname -m)" in
+  x86_64) arch="amd64" ;;
+  arm64|aarch64) arch="arm64" ;;
+  i*86) arch="386" ;;
+  *) fail "Unsupported architecture: $(uname -m)" ;;
+esac
 
 # Build release file based on the goreleaser default location in github
 release_file="${TOOL_NAME}_${os}_${arch}.tar.gz"
