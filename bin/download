@@ -36,7 +36,7 @@ else
 fi
 
 # Build release file based on the goreleaser default location in github
-release_file="${TOOL_NAME}_${ASDF_INSTALL_VERSION}_${os}_${arch}.tar.gz"
+release_file="${TOOL_NAME}_${os}_${arch}.tar.gz"
 download_path="$ASDF_DOWNLOAD_PATH/$release_file"
 url="$GH_REPO/releases/download/v${ASDF_INSTALL_VERSION}/$release_file"
 
