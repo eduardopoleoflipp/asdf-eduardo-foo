@@ -3,6 +3,12 @@
 GH_REPO="https://github.com/eduardopoleoflipp/eduardo-foo"
 TOOL_NAME="eduardo-foo"
 
+# Function to handle failures
+fail() {
+  echo "Error: $*" >&2
+  exit 1
+}
+
 set -euo pipefail
 
 current_script_path=${BASH_SOURCE[0]}
@@ -14,9 +20,10 @@ mkdir -p "$ASDF_DOWNLOAD_PATH"
 os=""
 arch=""
 
-# Handle other operating systems
+# Handle operating systems
 case "$(uname -s)" in
   Linux) os="linux" ;;
+  Darwin) os="darwin" ;;
   MINGW*|MSYS*|CYGWIN*) os="windows" ;;
   *) fail "Unsupported operating system: $(uname -s)" ;;
 esac
